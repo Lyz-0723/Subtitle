@@ -1,13 +1,16 @@
 import pygame
 
 from component.Text import Text
+from component.Button import Button
 
 
 class Input:
     def __init__(self, length, size, pos, color=(0, 0, 0)):
+        self.pos = pos
+        self.font = "字体管家方萌.TTF"
         self.word = ""
         self.length = length
-        self.text = Text(self.word[-self.length:], size, pos, color, pos_type='midleft')
+        self.text = Text(self.font, self.word[-self.length:], size, pos, color, pos_type='midleft')
         self.size = size
         self.color = color
 
@@ -27,7 +30,7 @@ class Input:
 
     def update_text(self):
         text = self.word if len(self.word) <= self.length else self.word[-self.length:]
-        self.text = Text(text, self.size, self.text.rect.midleft, self.color, pos_type='midleft')
+        self.text = Text(self.font, text, self.size, self.text.rect.midleft, self.color, pos_type='midleft')
 
     def reset(self):
         self.word = ""
@@ -36,6 +39,9 @@ class Input:
 
     def show(self, screen):
         self.text.show(screen)
+        self.typing.rect = self.typing.img.get_rect(midleft=self.text.rect.midright)
+        if self.typing.state:
+            self.typing.show(screen)
 
 
 class SearchInput(Input):

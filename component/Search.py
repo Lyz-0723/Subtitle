@@ -89,7 +89,7 @@ class Search:
 
     def show_result(self, screen):
         if self._result and self._result == "Download Failed":
-            text = Text("Not Found", 45, CENTER)
+            text = Text("字体管家方萌.TTF", "Not Found", 45, CENTER)
             text.show(screen)
         elif self._result:
             img_name = list(filter(lambda x: 'jpg' in x, os.listdir("temp/")))[0]
@@ -128,7 +128,7 @@ class Search:
                 x += word_width
 
         else:
-            text = Text("Not Found", 45, CENTER)
+            text = Text("字体管家方萌.TTF", "Not Found", 45, CENTER)
             text.show(screen)
 
     def show(self, screen: pygame.Surface):
@@ -145,3 +145,7 @@ class Search:
 
             if self._result:
                 self.show_download_btn(screen)
+
+    @property
+    def input(self):
+        return self._input
