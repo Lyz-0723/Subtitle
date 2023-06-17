@@ -27,8 +27,9 @@ class Game:
     def run(self):
         btn_music_list = Button("musiclist", (80, 80), (120, 120))
         # btn_music = Button("music", (80, 80), (190, 120))
-        btn_next = Button("next", (60, 60), (1060, 150))
+        btn_next = Button("next", (60, 60), (1060, 190))
         # btn_clock = Button("clock",(80, 80),(190,120))
+        btn_skull_nor = Button("skull", (80,80), (120,300))
 
         pygame.time.set_timer(pygame.USEREVENT, self.background.fps)
         pygame.time.set_timer(pygame.USEREVENT + 1, self.player.song_name.fps)
@@ -57,7 +58,7 @@ class Game:
                     self.player.song_name.animation()
 
                 if event.type == self.timer.fps_counter:
-                    if self.timer.start_count:
+                    if self.timer.counting:
                         self.timer.animation()
                     else:
                         pass
@@ -84,8 +85,8 @@ class Game:
 
             self.background.load_bg_img(self.screen)
             btn_music_list.show(self.screen)
-
             btn_next.show(self.screen)
+            btn_skull_nor.show(self.screen)
 
             self.timer.show(self.screen)
             self.player.show(self.screen, delta_time)

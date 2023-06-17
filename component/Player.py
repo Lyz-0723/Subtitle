@@ -33,9 +33,9 @@ class Player:
         self._playback_bar = PlayBackBar()
         self._setting = setting
 
-        self._btn_play = Button("play", (75, 75), (945, 150))
-        self._btn_pause = Button("pause", (65, 65), (945, 150))
-        self._btn_reset = Button("reset", (60, 60), (1000, 150))
+        self._btn_play = Button("play", (75, 75), (945, 190))
+        self._btn_pause = Button("pause", (65, 65), (945, 190))
+        self._btn_reset = Button("reset", (60, 60), (1000, 190))
 
     def change_song(self, filename):
         self._reset()
