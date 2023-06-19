@@ -16,9 +16,14 @@ class Timer:
         self.counting = False
         self.end = False
         self.state = False
+        self.zero_state = False
 
         self.mode = 1
-        self.round = [0, 0, 0]
+        self.round = [0,0,0]
+
+        self.work_count = Text('字体管家方萌.TTF',f"{self.round[0]}",40,(140,730),DEFAULT_COLOR)
+        self.short_break_count = Text('字体管家方萌.TTF', f"{self.round[1]}", 40, (245, 730), DEFAULT_COLOR_PINK)
+        self.long_break_count = Text('字体管家方萌.TTF', f"{self.round[2]}", 40, (350, 730), DEFAULT_COLOR_BLUE)
 
         self.fps = 1000
         self.fps_counter = pygame.USEREVENT + 2
@@ -31,11 +36,19 @@ class Timer:
 
     def get_time_text(self):
         if self.current_time == 0:
-            self.round[self.mode] += 1
+            if self.zero_state == True:
+                self.round[self.mode] += 1
+                self.work_count.update(str(self.round[0]))
+                self.short_break_count.update(str(self.round[1]))
+                self.long_break_count.update(str(self.round[2]))
+                print("zero")
+                print(self.round)
+                self.zero_state = False
             self.counting = False
             self.end = True
             return "00:00"
         else:
+            self.zero_state = True
             return f"{self.current_time // 60:02}:{self.current_time % 60:02}"
 
     def get_color(self):
@@ -44,9 +57,15 @@ class Timer:
         return TIMER_COLOR[self.mode]
 
     def show(self, screen: pygame.Surface):
+        # self.work_count.update(self.round[0])
+        # self.short_break_count.update(self.round[1])
+        # self.long_break_count.update(self.round[2])
         self.mode_working.show(screen)
         self.mode_short_break.show(screen)
         self.mode_long_break.show(screen)
+        self.work_count.show(screen)
+        self.short_break_count.show(screen)
+        self.long_break_count.show(screen)
 
         self.timer_text.update(self.get_time_text(), self.get_color())
         self.timer_text.show(screen)
@@ -91,15 +110,21 @@ class Timer:
     def _mode_select_pressed(self, pos):
         if self.mode_working.rect.collidepoint(pos):  # normal
             self.state = True
+            # if self.current_time >= 0:
+            #     self.zero_state = True
             self.mode = 0
             self.current_time = TIME_LENGTH[self.mode]
 
         elif self.mode_short_break.rect.collidepoint(pos):  # short break
             self.state = True
+            # if self.current_time >= 0:
+            #     self.zero_state = True
             self.mode = 1
             self.current_time = TIME_LENGTH[self.mode]
 
         elif self.mode_long_break.rect.collidepoint(pos):  # long break
             self.state = True
+            # if self.current_time >=0:
+            #     self.zero_state = True
             self.mode = 2
             self.current_time = TIME_LENGTH[self.mode]
